@@ -1,0 +1,10 @@
+cffi==1.14.6
+cryptography==3.4.8
+paho-mqtt==1.5.1
+Pillow==8.3.1
+pip==21.2.4
+pycparser==2.20
+pyOpenSSL==20.0.1
+python-ev3dev==1.2.0
+setuptools==49.2.1
+six==1.16.0
