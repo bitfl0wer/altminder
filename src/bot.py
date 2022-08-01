@@ -1,3 +1,7 @@
+# altminder https://github.com/bitfl0wer/altminder
+# Published under the GNU AGPL-3.0 License
+# A project that aims to make Discord a tiny bit more accessible for vision impaired users.
+
 from os import environ
 from dotenv import load_dotenv
 import discord
