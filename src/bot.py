@@ -5,6 +5,7 @@
 from os import environ
 from dotenv import load_dotenv
 import discord
+import random
 
 
 load_dotenv()
@@ -16,6 +17,23 @@ __token__ = environ.get("TOKEN")
 
 bot = discord.Bot()
 
+image_types = [
+    "image/png",
+    "image/jpeg",
+    "image/aviv",
+    "image/webp",
+    "image/svg+xml"
+]
+
+reminder_texts = [
+    "Good day! You just posted an image without a description. This makes it impossible for blind or low vision users to understand its content.",
+    "Hello! This is a reminder that you just posted an image without a description. This makes it impossible for blind or low vision users to fully participate on Discord.",
+    "Hey! The image you have just posted does not have a description. This excludes blind or low vision users from fully participating in this community.",
+    "Hi! It looks like you forgot to include a description with your image. This makes participation easier and more pleasant for blind or low vision users.",
+    "Hey! To make it easier for blind or low vision users to participate on Discord, please include a description with your image. You seem to have forgotten to do this."
+]
+
+tutorial_string = "Please, if possible, re-post your image with an alt-text. To do this, open the image properties when you have added it to the message, and fill a text box labelled 'Description (Alt Text)'."
 
 @bot.event
 async def on_ready():
@@ -23,6 +41,21 @@ async def on_ready():
     """
     await bot.change_presence(activity=discord.Game('Reminding about ALT Texts!'))
 
+@bot.event()
+async def on_message(message):
+    """Gets executed when a message is sent in the server.
+    """
+    if message.author == bot.user or message.author.bot:
+        return
+
+    attachments = message.attachments
+    for attachment in attachments:
+        if attachment.type in image_types:
+            # Check if the image has a description.
+            if not attachment.description:
+                # Send a single random reminder message.
+                await message.reply(reminder_texts[random.randint(0, len(reminder_texts) - 1)])
+                break
 
 # Load all the cogs
 bot.load_extension("")
