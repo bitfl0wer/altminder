@@ -32,7 +32,7 @@ reminder_texts = [
     "Hey! To make it easier for blind or low vision users to participate on Discord, please include a description with your image. You seem to have forgotten to do this.",
 ]
 
-tutorial_string = "\n\nPlease, if possible, **re-post your image with an alt-text.** [A tutorial can be found here.](https://support.discord.com/hc/en-us/articles/211866427-How-do-I-upload-images-and-GIFs-)."
+tutorial_string = "\n\nPlease, if possible, **re-post your image with an alt-text.** [A tutorial can be found here.](https://support.discord.com/hc/en-us/articles/211866427-How-do-I-upload-images-and-GIFs-)"
 
 
 @bot.event
