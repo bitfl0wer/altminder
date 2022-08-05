@@ -3,10 +3,10 @@
 # A project that aims to make Discord a tiny bit more accessible for vision impaired users.
 
 from os import environ
+from sys import flags
 from dotenv import load_dotenv
 import discord
 import random
-
 
 load_dotenv()
 
@@ -15,7 +15,9 @@ if "TOKEN" not in environ:
 
 __token__ = environ.get("TOKEN")
 
-bot = discord.Bot()
+intents = discord.Intents.default()
+intents.message_content = True
+bot = discord.Bot(intents=intents)
 
 image_types = [
     "image/png",
@@ -35,13 +37,15 @@ reminder_texts = [
 
 tutorial_string = "Please, if possible, re-post your image with an alt-text. To do this, open the image properties when you have added it to the message, and fill a text box labelled 'Description (Alt Text)'."
 
+
 @bot.event
 async def on_ready():
     """Gets executed once the bot is logged in.
     """
     await bot.change_presence(activity=discord.Game('Reminding about ALT Texts!'))
 
-@bot.event()
+
+@bot.event
 async def on_message(message):
     """Gets executed when a message is sent in the server.
     """
@@ -50,14 +54,13 @@ async def on_message(message):
 
     attachments = message.attachments
     for attachment in attachments:
-        if attachment.type in image_types:
+        print(attachment)
+        if attachment.content_type in image_types:
             # Check if the image has a description.
             if not attachment.description:
                 # Send a single random reminder message.
-                await message.reply(reminder_texts[random.randint(0, len(reminder_texts) - 1)])
+                message = await message.reply(reminder_texts[random.randint(0, len(reminder_texts) - 1)])
                 break
-
 # Load all the cogs
-bot.load_extension("")
 # Connect the bot to the discord api
 bot.run(__token__)
