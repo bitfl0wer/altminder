@@ -20,6 +20,8 @@ intents = discord.Intents.default()
 intents.message_content = True
 bot = discord.Bot(intents=intents)
 
+timeout = 30
+
 image_types = [
     "image/png",
     "image/jpeg",
@@ -36,7 +38,7 @@ reminder_texts = [
     "Hey! To make it easier for blind or low vision users to participate on Discord, please include a description with your image. You seem to have forgotten to do this."
 ]
 
-tutorial_string = "Please, if possible, re-post your image with an alt-text. To do this, open the image properties when you have added it to the message, and fill a text box labelled 'Description (Alt Text)'. A tutorial can be found here: https://support.discord.com/hc/en-us/articles/211866427-How-do-I-upload-images-and-GIFs-"
+tutorial_string = "Please, if possible, re-post your image with an alt-text. To do this, open the image properties when you have added it to the message, and fill a text box labelled 'Description (Alt Text)'. A tutorial can be found here: https://support.discord.com/hc/en-us/articles/211866427-How-do-I-upload-images-and-GIFs-."
 
 
 @bot.event
@@ -59,10 +61,9 @@ async def on_message(message):
             # Check if the image has a description.
             if not attachment.description:
                 # Send a single random reminder message.
-                message = await message.reply(reminder_texts[random.randint(0, len(reminder_texts) - 1)] + ' ' + tutorial_string)
-                await asyncio.sleep(30)
+                message = await message.reply(reminder_texts[random.randint(0, len(reminder_texts) - 1)] + ' ' + tutorial_string + ' This Message will self-destruct in ' + str(timeout) + 's.')
+                await asyncio.sleep(timeout)
                 await message.delete()
                 break
-# Load all the cogs
 # Connect the bot to the discord api
 bot.run(__token__)
