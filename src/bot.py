@@ -39,12 +39,14 @@ tutorial_string = "Please, if possible, re-post your image with an alt-text. To 
 async def on_ready():
     """Gets executed once the bot is logged in."""
     print("Online.")
+    # Set a bot "Playing [...]" status message.
     await bot.change_presence(activity=discord.Game("Reminding about ALT Texts!"))
 
 
 @bot.event
 async def on_message(message):
     """Gets executed when a message is sent in the server."""
+    # Don't react to self or other bots to avoid a) recursion b) talking to a wall
     if message.author == bot.user or message.author.bot:
         return
 
@@ -52,16 +54,20 @@ async def on_message(message):
         if attachment.content_type in image_types:
             # Check if the image has a description.
             if not attachment.description:
-                # Send a single random reminder message.
+                # Create and send a single, random reminder message
+                # Pick a random reminder message and combine it with the tutorial_string
                 message_reminder = (
                     reminder_texts[random.randint(0, len(reminder_texts) - 1)]
                     + " "
                     + tutorial_string
                 )
+                # Generate the message self-destruction notice so that users don't get confused.
                 message_selfdestruct = (
                     " This message will delete itself in " + str(timeout) + "s."
                 )
+                # Finally, put the two messages together and send it as a reply to the image without alt-text
                 message = await message.reply(message_reminder + message_selfdestruct)
+                # Wait for $timeout seconds, then delete the message.
                 await asyncio.sleep(timeout)
                 await message.delete()
                 break
