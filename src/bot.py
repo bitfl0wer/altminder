@@ -32,7 +32,7 @@ reminder_texts = [
     "Hey! To make it easier for blind or low vision users to participate on Discord, please include a description with your image. You seem to have forgotten to do this.",
 ]
 
-tutorial_string = "Please, if possible, re-post your image with an alt-text. To do this, open the image properties when you have added it to the message, and fill a text box labelled 'Description (Alt Text)'. A tutorial can be found here: https://support.discord.com/hc/en-us/articles/211866427-How-do-I-upload-images-and-GIFs-."
+tutorial_string = "\n\nPlease, if possible, **re-post your image with an alt-text.** A tutorial can be found here: https://is.gd/AkIbLV"
 
 
 @bot.event
@@ -40,7 +40,7 @@ async def on_ready():
     """Gets executed once the bot is logged in."""
     print("Online.")
     # Set a bot "Playing [...]" status message.
-    await bot.change_presence(activity=discord.Game("Reminding about ALT Texts!"))
+    await bot.change_presence(activity=discord.Game("Reminding about Alt Texts!"))
 
 
 @bot.event
@@ -55,18 +55,17 @@ async def on_message(message):
             # Check if the image has a description.
             if not attachment.description:
                 # Create and send a single, random reminder message
-                # Pick a random reminder message and combine it with the tutorial_string
+                # Pick a random reminder message and combine it with the tutorial_string and other components
                 message_reminder = (
                     reminder_texts[random.randint(0, len(reminder_texts) - 1)]
                     + " "
                     + tutorial_string
+                    + " This message will delete itself in "
+                    + str(timeout)
+                    + "s."
                 )
-                # Generate the message self-destruction notice so that users don't get confused.
-                message_selfdestruct = (
-                    " This message will delete itself in " + str(timeout) + "s."
-                )
-                # Finally, put the two messages together and send it as a reply to the image without alt-text
-                message = await message.reply(message_reminder + message_selfdestruct)
+                # Send the message as a reply to the alt-textless-image
+                message = await message.reply(message_reminder)
                 # Wait for $timeout seconds, then delete the message.
                 await asyncio.sleep(timeout)
                 await message.delete()
