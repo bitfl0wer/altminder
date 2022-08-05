@@ -7,6 +7,7 @@ from sys import flags
 from dotenv import load_dotenv
 import discord
 import random
+import asyncio
 
 load_dotenv()
 
@@ -54,12 +55,13 @@ async def on_message(message):
 
     attachments = message.attachments
     for attachment in attachments:
-        print(attachment)
         if attachment.content_type in image_types:
             # Check if the image has a description.
             if not attachment.description:
                 # Send a single random reminder message.
                 message = await message.reply(reminder_texts[random.randint(0, len(reminder_texts) - 1)])
+                await asyncio.sleep(600)
+                await message.delete()
                 break
 # Load all the cogs
 # Connect the bot to the discord api
