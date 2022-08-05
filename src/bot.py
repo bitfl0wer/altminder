@@ -60,7 +60,7 @@ async def on_message(message):
             if not attachment.description:
                 # Send a single random reminder message.
                 message = await message.reply(reminder_texts[random.randint(0, len(reminder_texts) - 1)])
-                await asyncio.sleep(600)
+                await asyncio.sleep(30)
                 await message.delete()
                 break
 # Load all the cogs
