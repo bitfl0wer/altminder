@@ -32,7 +32,7 @@ reminder_texts = [
     "Hey! To make it easier for blind or low vision users to participate on Discord, please include a description with your image. You seem to have forgotten to do this.",
 ]
 
-tutorial_string = "\n\nPlease, if possible, **re-post your image with an alt-text.** A tutorial can be found here: https://is.gd/AkIbLV"
+tutorial_string = "\n\nPlease, if possible, **re-post your image with an alt-text.** [A tutorial can be found here.](https://support.discord.com/hc/en-us/articles/211866427-How-do-I-upload-images-and-GIFs-)."
 
 
 @bot.event
@@ -60,12 +60,14 @@ async def on_message(message):
                     reminder_texts[random.randint(0, len(reminder_texts) - 1)]
                     + " "
                     + tutorial_string
-                    + " This message will delete itself in "
+                    + " :bomb: This message will self-destruct in "
                     + str(timeout)
                     + "s."
                 )
                 # Send the message as a reply to the alt-textless-image
-                message = await message.reply(message_reminder)
+                embed = discord.Embed()
+                embed.description = message_reminder
+                message = await message.reply(embed=embed)
                 # Wait for $timeout seconds, then delete the message.
                 await asyncio.sleep(timeout)
                 await message.delete()
