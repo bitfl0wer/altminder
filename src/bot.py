@@ -3,11 +3,11 @@
 # A project that aims to make Discord a tiny bit more accessible for vision impaired users.
 
 from os import environ
-from sys import flags
 from dotenv import load_dotenv
 import discord
 import random
 import asyncio
+from stats import handle_stats
 
 load_dotenv()
 
@@ -40,7 +40,11 @@ async def on_ready():
     """Gets executed once the bot is logged in."""
     print("Online.")
     # Set a bot "Playing [...]" status message.
-    await bot.change_presence(activity=discord.Game("Reminding about Alt Texts!"))
+    await bot.change_presence(
+        activity=discord.Game(
+            "Reminded about alt text " + str(handle_stats("r")) + " times!"
+        )
+    )
 
 
 @bot.event
@@ -54,6 +58,12 @@ async def on_message(message):
         if attachment.content_type in image_types:
             # Check if the image has a description.
             if not attachment.description:
+                # Increase the statistics of how many times the bot has been reminding about alt text.
+                await bot.change_presence(
+                    activity=discord.Game(
+                        "Reminded about alt text " + str(handle_stats("w")) + " times!"
+                    )
+                )
                 # Create and send a single, random reminder message
                 # Pick a random reminder message and combine it with the tutorial_string and other components
                 message_reminder = (
