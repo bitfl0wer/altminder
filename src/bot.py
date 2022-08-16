@@ -42,7 +42,11 @@ async def on_ready():
     # Set a bot "Playing [...]" status message.
     await bot.change_presence(
         activity=discord.Game(
-            "Reminded about alt text " + str(handle_stats("r")) + " times!"
+            "Reminded about alt text "
+            + str(handle_stats("r"))
+            + " times on "
+            + str(len(bot.guilds))
+            + " servers."
         )
     )
 
