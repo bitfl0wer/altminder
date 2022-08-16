@@ -66,7 +66,7 @@ async def on_message(message):
                 await bot.change_presence(
                     activity=discord.Game(
                         "Reminded about alt text "
-                        + str(handle_stats("r"))
+                        + str(handle_stats("w"))
                         + " times on "
                         + str(len(bot.guilds))
                         + " servers."
