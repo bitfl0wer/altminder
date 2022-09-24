@@ -32,8 +32,22 @@ reminder_texts = [
     "Hey! To make it easier for blind or low vision users to participate on Discord, please include a description with your image. You seem to have forgotten to do this.",
 ]
 
-tutorial_string = "\n\nPlease, if possible, **re-post your image with an alt-text.** [A tutorial can be found here.](https://support.discord.com/hc/en-us/articles/211866427-How-do-I-upload-images-and-GIFs-)"
+tutorial_string = "Please, if possible, **re-post your image with an alt-text.** [A tutorial can be found here.](https://support.discord.com/hc/en-us/articles/211866427-How-do-I-upload-images-and-GIFs-)"
 
+tips = [
+    "Keep it short, but get verbose when necessary. Most of the time, one or two sentences are enough.",
+    "Describe the relations and interactions of objects in the image.",
+    "Include colors in your description.",
+    "If there is text in your image, copy it to the description.",
+    "Do not interpret the image in your description. Include only what you can visually see.",
+    "Ignore irrelevant details in your description.",
+    "Describe the setting or style of the image.",
+    "Include the type of the image, e.g. \"Drawing\", \"Photo\", \"Painting\", \"Sketch\", etc.",
+    "If the image contains visualized data in a chart or table, interpret the data verbally.",
+    "Refrain from using formatting in the description. Use only plain text.",
+    "AI-generated image descriptions are not a suitable substitute for your own words.",
+    "Describe the context of the image and your post.",
+]
 
 @bot.event
 async def on_ready():
@@ -72,23 +86,33 @@ async def on_message(message):
                         + " servers."
                     )
                 )
+
                 # Create and send a single, random reminder message
                 # Pick a random reminder message and combine it with the tutorial_string and other components
                 message_reminder = (
                     reminder_texts[random.randint(0, len(reminder_texts) - 1)]
-                    + " "
+                    + "\n\n"
                     + tutorial_string
                     + " :bomb: This message will self-destruct in "
                     + str(timeout)
                     + "s."
                 )
+
+                # Include a random tip in every other reminder message
+                # so people can get informed on good alt text over time
+                # without trying to teach them
+                if random.randint(0, 1) == 1:
+                    message_reminder += "\n\n:information_source: **A tip for your alt texts:** " + tips[random.randint(0, len(tips) - 1)]
+
                 # Send the message as a reply to the alt-textless-image
                 embed = discord.Embed()
                 embed.description = message_reminder
                 message = await message.reply(embed=embed)
+
                 # Wait for $timeout seconds, then delete the message.
                 await asyncio.sleep(timeout)
                 await message.delete()
+                # Send only one reminder per message to avoid spam.
                 break
 
 
