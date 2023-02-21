@@ -93,7 +93,7 @@ participating in the community (the Discord server).
 ### Built With
 
 * Python
-* [py-cord 2.1.1](https://github.com/Pycord-Development/pycord)
+* [py-cord 2.4.0](https://github.com/Pycord-Development/pycord)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
