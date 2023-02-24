@@ -30,7 +30,7 @@
 <br />
 <div align="center">
   <a href="https://github.com/bitfl0wer/altminder">
-    <img src="images/altminder.jpg" alt="Logo" width="80" height="80" alt="altminder Logo. Dark grey background that displays a red heart with a light-blue eye icon overlayed on top.">
+    <img src="img/altminder2.jpg" alt="Logo" width="100" height="100" alt="altminder Logo. Dark grey background that displays a red heart with a light-blue eye icon overlayed on top.">
   </a>
 
 <h3 align="center">altminder</h3>
