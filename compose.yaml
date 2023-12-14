@@ -1,0 +1,6 @@
+services:
+  altminder:
+    build: .
+    environment:
+    - TOKEN=example
+    restart: unless-stopped
